@@ -47,4 +47,37 @@ describe('MoviesService', () => {
       }
     });
   });
+
+  describe('deleteOne', () => {
+    it('deletes a movie', () => {
+      service.create({
+        title: 'Test',
+        geners: ['test'],
+        year: 2000,
+      });
+      const beforDelete = service.getAll().length; //영화 전체를 불러온다.
+      service.deleteOne(1); // 그중 1번의 영화를 삭제
+      const afterDelete = service.getAll().length; // 1번의 영화를 삭제한 후 결과
+
+      expect(afterDelete).toBeLessThan(beforDelete);
+      // 이후의 movie length가 allMovies의 길이보다 적을거라고 예상
+    });
+    it('should return a 404', () => {
+      try {
+        service.deleteOne(999);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+
+  describe('create', () => {
+    it('should create a movie', () => {
+      service.create({
+        title: 'Test',
+        geners: ['test'],
+        year: 2000,
+      });
+    });
+  });
 });
